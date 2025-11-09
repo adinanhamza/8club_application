@@ -1,16 +1,39 @@
-# flutter_application_1
+# Flutter Assignment – 8Club
 
-A new Flutter project.
+This project is a Flutter-based mobile application built as part of the technical assignment for 8Club.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
+## 🚀 Features Implemented
+✅ Login & authentication flow  
+✅ Experience selection with wave-styled cards  
+✅ Dynamic progress wave bar in Question screen  
+✅ Audio and video recording functionality (using `record` and `camera` packages)  
+✅ State management with BLoC (Business Logic Component)  
+✅ Modern and responsive UI  
+✅ Local storage (using `path_provider`)  
 
-A few resources to get you started if this is your first Flutter project:
+---
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## 🍫 Brownie Point Items Implemented
+✨ Animated wave progress indicator for smooth transitions  
+🎙️ Real-time audio waveform visualization while recording  
+📹 Integrated video recorder & preview  
+📁 Organized folder structure (data, presentation, core, bloc layers)  
+💬 Interactive error handling and SnackBar feedback  
+🌈 Consistent design system (`AppColors`, `AppTextStyles`, `AppDimens`)
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+---
+
+## 💡 Additional Enhancements
+- Reusable widgets for progress bars, cards, and buttons  
+- Smooth animations with `TweenAnimationBuilder`  
+- Clean architecture and modular BLoC setup  
+- Pixel-perfect UI based on design mockups  
+
+---
+
+## 🛠️ How to Run the App
+1. Clone this repository:
+   ```bash
+   git clone https://github.com/<yourusername>/flutter-assignment-8club.git
