@@ -1,4 +1,4 @@
-// lib/presentation/screens/experience_selection/widgets/experience_card.dart
+
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,7 +8,7 @@ import 'dart:math' as math;
 class ExperienceCard extends StatelessWidget {
   final Experience experience;
   final VoidCallback onToggle;
-  final int index; // Add index for wave calculation
+  final int index; 
 
   const ExperienceCard({
     Key? key,
@@ -19,10 +19,10 @@ class ExperienceCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Calculate vertical offset for wave effect
-    final double waveOffset = math.sin(index * 0.5) * 8; // Adjust wave height
 
-    // Painter tuning (pixel-perfect values used previously)
+    final double waveOffset = math.sin(index * 0.5) * 8; 
+
+   
     const double stampWidth = 100;
     const double stampHeight = 110;
     const double cornerRadius = 12.0;
@@ -42,9 +42,7 @@ class ExperienceCard extends StatelessWidget {
             height: stampHeight,
             child: Stack(
               children: [
-                // CustomPaint draws the white perforated border band.
-                // We place the inner content (image + overlay + label) as the child,
-                // padded by borderWidth so it sits inside the border band.
+              
                 CustomPaint(
                   size: const Size(stampWidth, stampHeight),
                   painter: StampBorderPainter(
@@ -176,7 +174,7 @@ class ExperienceCard extends StatelessWidget {
   }
 }
 
-/// Stamp Border Painter with perforated edges and rounded corners
+
 class StampBorderPainter extends CustomPainter {
   final double cornerRadius;
   final double borderWidth;
@@ -199,13 +197,13 @@ class StampBorderPainter extends CustomPainter {
       ..style = PaintingStyle.fill
       ..isAntiAlias = true;
 
-    // Outer rounded rect
+  
     final outerRRect = RRect.fromRectAndRadius(
       Rect.fromLTWH(0, 0, size.width, size.height),
       Radius.circular(cornerRadius),
     );
 
-    // Ensure inner rect fits (clamp to avoid negative width/height)
+
     final innerRadius = (cornerRadius - borderWidth).clamp(0.0, cornerRadius);
     final innerRect = Rect.fromLTWH(
       borderWidth,
@@ -216,54 +214,51 @@ class StampBorderPainter extends CustomPainter {
 
     final innerRRect = RRect.fromRectAndRadius(innerRect, Radius.circular(innerRadius));
 
-    // Create the border band by subtracting innerRRect from outerRRect
     final outerPath = Path()..addRRect(outerRRect);
     final innerPath = Path()..addRRect(innerRRect);
     final borderPath = Path.combine(PathOperation.difference, outerPath, innerPath);
 
-    // Build perforations path (circles) inside the band.
     final perforPath = Path();
 
-    // Helper to add circle (hole) at cx, cy
+ 
     void addHole(double cx, double cy) {
       perforPath.addOval(Rect.fromCircle(center: Offset(cx, cy), radius: perfRadius));
     }
 
-    // We'll place holes along each straight edge but stop them before the rounded corners.
+    
     final double startX = cornerRadius + perfSpacing / 2;
     final double endX = size.width - cornerRadius - perfSpacing / 2;
     final double startY = cornerRadius + perfSpacing / 2;
     final double endY = size.height - cornerRadius - perfSpacing / 2;
-    final double holeInset = borderWidth / 2; // place hole centers halfway through the band
+    final double holeInset = borderWidth / 2; 
 
     if (endX > startX) {
-      // Top edge (left -> right)
+
       for (double x = startX; x <= endX; x += perfSpacing) {
         addHole(x, holeInset);
       }
 
-      // Bottom edge (right -> left)
+   
       for (double x = endX; x >= startX; x -= perfSpacing) {
         addHole(x, size.height - holeInset);
       }
     }
 
     if (endY > startY) {
-      // Right edge (top -> bottom)
+  
       for (double y = startY; y <= endY; y += perfSpacing) {
         addHole(size.width - holeInset, y);
       }
 
-      // Left edge (bottom -> top)
+     
       for (double y = endY; y >= startY; y -= perfSpacing) {
         addHole(holeInset, y);
       }
     }
 
-    // Subtract perforations (holes) from border band
     final finalPath = Path.combine(PathOperation.difference, borderPath, perforPath);
 
-    // Draw final border
+   
     canvas.drawPath(finalPath, paint);
   }
 

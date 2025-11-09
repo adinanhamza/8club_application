@@ -1,4 +1,4 @@
-// lib/presentation/screens/question/bloc/question_bloc.dart
+
 
 import 'dart:io';
 
@@ -41,12 +41,12 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
       final directory = await getApplicationDocumentsDirectory();
       final path = '${directory.path}/audio_${DateTime.now().millisecondsSinceEpoch}.m4a';
 
-      // FIXED: Use RecordConfig
+     
       await _audioRecorder.start(
         const RecordConfig(
           encoder: AudioEncoder.aacLc,
           bitRate: 128000,
-          sampleRate: 44100, // FIXED: Changed from samplingRate to sampleRate
+          sampleRate: 44100, 
         ),
         path: path,
       );
@@ -85,7 +85,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     Emitter<QuestionState> emit,
   ) async {
     try {
-      // Stop recording
+   
       try {
         final path = await _audioRecorder.stop();
         if (path != null) {
@@ -93,10 +93,10 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
           if (await f.exists()) await f.delete();
         }
       } catch (_) {
-        // Ignore stop errors
+      
       }
       
-      // Delete stored path if exists
+     
       if (_audioPath != null) {
         final f = File(_audioPath!);
         if (await f.exists()) await f.delete();
@@ -129,7 +129,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
     StartVideoRecording event,
     Emitter<QuestionState> emit,
   ) {
-    // Video handled in widgets
+ 
     emit(QuestionRecordingVideo(''));
   }
 
@@ -193,7 +193,7 @@ class QuestionBloc extends Bloc<QuestionEvent, QuestionState> {
 
   @override
   Future<void> close() {
-    // FIXED: Dispose the recorder properly
+ 
     _audioRecorder.dispose();
     return super.close();
   }

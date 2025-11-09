@@ -1,4 +1,4 @@
-// experience_bloc.dart
+
 import 'package:flutter_application_1/data/models/experience_model.dart';
 import 'package:flutter_application_1/data/repositories/experience_repository.dart';
 import 'package:flutter_application_1/presentation/screens/experience_selection/bloc/experiance_event.dart';
@@ -42,7 +42,7 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
         return exp;
       }).toList();
 
-      // Move selected card to first position (animation)
+   
       final selectedIndex = updatedExperiences
           .indexWhere((exp) => exp.id == event.experienceId);
       if (selectedIndex != -1 && updatedExperiences[selectedIndex].isSelected) {
@@ -93,7 +93,7 @@ class ExperienceBloc extends Bloc<ExperienceEvent, ExperienceState> {
           .where((exp) => exp.isSelected)
           .toList();
       
-      // Log the state
+   
       print('Selected Experiences:');
       for (var exp in selectedExperiences) {
         print('ID: \${exp.id}, Name: \${exp.name}, Text: \${exp.customText}');

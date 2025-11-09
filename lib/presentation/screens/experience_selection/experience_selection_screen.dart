@@ -306,8 +306,7 @@ class ExperienceSelectionScreen extends StatefulWidget {
 class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> with SingleTickerProviderStateMixin {
   final TextEditingController _textController = TextEditingController();
 
-  // Progress / frames
-  int _currentFrame = 4; // start frame to match your screenshot (4/15) — change to 1 if you want
+  int _currentFrame = 4;
   final int _totalFrames = 15;
 
   late AnimationController _animController;
@@ -322,7 +321,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
     _progressAnimation = Tween<double>(begin: _progressValue, end: _progressValue).animate(
       CurvedAnimation(parent: _animController, curve: Curves.easeInOut),
     )..addListener(() {
-        setState(() {}); // rebuild to paint with new progress
+        setState(() {}); 
       });
   }
 
@@ -354,11 +353,10 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
   void _onNextPressed(bool hasSelection) {
     if (!hasSelection) return;
 
-    // Advance progress to next frame then navigate
+ 
     final nextFrame = (_currentFrame + 1).clamp(1, _totalFrames);
     _animateToFrame(nextFrame, onComplete: () {
-      // After animation completes, proceed to next screen.
-      // Replace with whatever route you want — currently '/question' per your original code.
+     
       Navigator.pushNamed(context, '/question');
     });
   }
@@ -403,7 +401,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
               return Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  // Top Bar with Back, Animated Wave Progress, Close
+          
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 16,
@@ -411,7 +409,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
                     ),
                     child: Row(
                       children: [
-                        // Back Button (steps wave back OR pops when at first frame)
+                     
                         IconButton(
                           icon: const Icon(Icons.arrow_back, color: Colors.white, size: 24),
                           onPressed: _onBackPressed,
@@ -421,7 +419,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
 
                         const SizedBox(width: 16),
 
-                        // Animated Wave Progress Indicator
+                       
                         Expanded(
                           child: SizedBox(
                             height: 26,
@@ -440,7 +438,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
 
                         const SizedBox(width: 16),
 
-                        // Close Button (still pops)
+                       
                         IconButton(
                           icon: const Icon(Icons.close, color: Colors.white, size: 24),
                           onPressed: () => Navigator.pop(context),
@@ -453,7 +451,6 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
 
                   const SizedBox(height: 40),
 
-                  // Question Text
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Text(
@@ -468,7 +465,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
 
                   const SizedBox(height: 32),
 
-                  // Experience Stamp Cards (Horizontal Scroll)
+                  
                   SizedBox(
                     height: 140,
                     child: ListView.builder(
@@ -478,7 +475,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
                       itemBuilder: (context, index) {
                         return ExperienceCard(
                           experience: state.experiences[index],
-                          index: index, // Pass index for wave calculation
+                          index: index, 
                           onToggle: () {
                             context.read<ExperienceBloc>().add(
                                   ToggleExperienceSelection(
@@ -493,7 +490,7 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
 
                   const SizedBox(height: 24),
 
-                  // Description Text Field
+                
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 24),
                     child: Container(
@@ -585,9 +582,9 @@ class _ExperienceSelectionScreenState extends State<ExperienceSelectionScreen> w
   }
 }
 
-// Wave Progress Painter
+
 class WaveProgressPainter extends CustomPainter {
-  /// progress from 0.0 .. 1.0
+
   final double progress;
   final int segments;
   final double waveHeight;
@@ -608,7 +605,7 @@ class WaveProgressPainter extends CustomPainter {
     final waveWidth = size.width / segments;
     final centerY = size.height / 2;
 
-    // Determine how many segments are fully active and partial progress for current segment
+  
     final fullSegments = (progress * segments).floor();
     final partial = (progress * segments) - fullSegments;
 
@@ -618,27 +615,27 @@ class WaveProgressPainter extends CustomPainter {
       final isActive = i < fullSegments;
       final isPartial = i == fullSegments && partial > 0;
 
-      // color for this segment
+
       if (isActive) {
         paint.color = activeColor;
       } else if (isPartial) {
-        // mix color between active and inactive based on partial
+      
         paint.color = Color.lerp(inactiveColor, activeColor, partial)!;
       } else {
         paint.color = inactiveColor;
       }
 
-      // create a small wavy path inside this segment
+      
       final p = Path();
-      final segmentStep = waveWidth / 6; // number of mini steps inside segment
+      final segmentStep = waveWidth / 6; 
       p.moveTo(xStart, centerY);
 
-      // simple up-down wave pattern across the segment
+     
       for (int step = 0; step <= 6; step++) {
         final x = xStart + step * segmentStep;
         final up = (step % 2 == 0);
         final y = centerY + (up ? -waveHeight : waveHeight);
-        // To keep it smooth, use quadratic bezier between points:
+       
         if (step == 0) {
           p.lineTo(x, y);
         } else {
@@ -650,17 +647,17 @@ class WaveProgressPainter extends CustomPainter {
         }
       }
 
-      // Clip the path to show partial segments proportionally
+    
       if (isPartial) {
-        // compute partialX as proportion of this segment that should be filled
+       
         final partialX = xStart + waveWidth * partial;
-        // Use clipRect to draw only left part of the segment
+       
         canvas.save();
         canvas.clipRect(Rect.fromLTWH(xStart, 0, partialX - xStart, size.height));
         canvas.drawPath(p, paint);
         canvas.restore();
 
-        // draw the remaining part with inactive color
+        
         final remainingPaint = Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 3.0
@@ -671,7 +668,7 @@ class WaveProgressPainter extends CustomPainter {
         canvas.drawPath(p, remainingPaint);
         canvas.restore();
       } else {
-        // draw full segment
+  
         canvas.drawPath(p, paint);
       }
     }
