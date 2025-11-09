@@ -4,8 +4,7 @@ This project is a Flutter-based mobile application built as part of the technica
 
 ---
 
-## 🚀 Features Implemented
-✅ Login & authentication flow  
+## 🚀 Features Implemented  
 ✅ Experience selection with wave-styled cards  
 ✅ Dynamic progress wave bar in Question screen  
 ✅ Audio and video recording functionality (using `record` and `camera` packages)  
